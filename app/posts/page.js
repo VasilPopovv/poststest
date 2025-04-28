@@ -19,23 +19,34 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useRouter } from "next/navigation";
-import { removePost } from '@/lib/features/PostsSlice'
+import { removePost, deletePost } from '@/lib/features/PostsSlice'
 
 const Posts = () => {
-    const posts = useSelector((state) => state.posts.value);
+    const posts = useSelector((state) => state.posts.posts);
     const dispatcher = useDispatch();
     const router = useRouter();
     const [inputValue, setInputValue] = useState('')
-    
+
     useEffect(() => {
-        dispatcher(getPosts());
+        if(!posts.length) dispatcher(getPosts());
     }, [dispatcher]);
 
-   
+    const deb = (e) => {
+        setTimeout(() => {
+            setInputValue(e.target.value)
+        }, 500)
+    }
+
+    const del = (id) => {
+        dispatcher(removePost(id))
+        dispatcher(deletePost(id))
+    }
+
+
 
     return (
         <Paper>
-            <Box sx={{ maxWidth: 1200, height: '100dvh', mx: "auto" }}>
+            <Box sx={{ maxWidth: 1200, minHeight: 'calc(100dvh - 4rem)', height: '100%', mx: "auto" }}>
                 <Box
                     component="form"
                     sx={{ "& > :not(style)": { my: 1 } }}
@@ -46,7 +57,7 @@ const Posts = () => {
                         fullWidth
                         id="outlined-basic"
                         placeholder="Пошук за заголовком"
-                        onInput={(e) => setInputValue(e.target.value)}
+                        onChange={deb}
                         slotProps={{
                             input: {
                                 startAdornment: (
@@ -79,7 +90,7 @@ const Posts = () => {
                                                 action={
                                                     <IconButton
                                                         aria-label="delete"
-                                                        onClick={() => dispatcher(removePost(i.id))}
+                                                        onClick={() => del(i.id)}
                                                     >
                                                         <DeleteIcon sx={{ color: "red" }} />
                                                     </IconButton>

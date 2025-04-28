@@ -11,7 +11,7 @@ export default function Home() {
     <Paper>
       <Box
         sx={{
-          height: "100vh",
+          height: "calc(100dvh - 4rem)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
