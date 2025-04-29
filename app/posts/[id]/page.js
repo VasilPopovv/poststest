@@ -11,13 +11,14 @@ import {
   Avatar,
   Button
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPostById, findPost, removePost, deletePost } from "@/lib/features/PostsSlice";
+import { getPostById, findPost, removePost, deletePost, getComments } from "@/lib/features/PostsSlice";
 import { useRouter } from 'next/navigation';
+import { changeTitle } from "@/lib/features/TitleSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { clearComments } from '@/lib/features/PostsSlice'
 
 const PostPage = ({ params }) => {
   const router = useRouter()
@@ -25,10 +26,15 @@ const PostPage = ({ params }) => {
   const posts = useSelector((state) => state.posts.posts);
   const post = useSelector((state) => state.posts.postId);
 
+  useLayoutEffect(() => {
+    dispatch(changeTitle(`Пост #${params.id}`))
+  }, [])
+
   useEffect(() => {
-    if (!posts.length) {
-      dispatch(getPostById(params.id));
-    } else dispatch(findPost(params.id))
+    if (!posts.length) dispatch(getPostById(params.id));
+    else dispatch(findPost(params.id))
+    dispatch(getComments(params.id))
+    return () => dispatch(clearComments())
   }, [dispatch]);
 
   const delPost = () => {

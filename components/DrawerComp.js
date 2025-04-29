@@ -14,33 +14,28 @@ import { useRouter } from 'next/navigation';
 const iconList = [
     { title: "Головна", icon: <HomeIcon />, route: '/' },
     { title: "Усі пости", icon: <FormatListBulletedIcon />, route: '/posts' },
-    { title: 'Створити пост', icon: <AddCircleIcon />, route: null }
+    { title: 'Створити пост', icon: <AddCircleIcon />, route: '/posts/create' }
 ];
 
 const DrawerComp = ({ open, toggle }) => {
     const router = useRouter();
 
-
-    const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={() => toggle()}>
-            <List>
-                {iconList.map((i) => (
-                    <ListItem key={i.title} disablePadding>
-                        <ListItemButton onClick={() => { if (i.route) router.push(i.route) }}>
-                            <ListItemIcon>{i.icon}</ListItemIcon>
-                            <ListItemText primary={i.title} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
-    );
     return (
         <Box>
             <Drawer open={open} onClose={() => toggle()}>
-                {DrawerList}
+                <Box sx={{ width: 250 }} role="presentation" onClick={() => toggle()}>
+                    <List>
+                        {iconList.map((i) => (
+                            <ListItem key={i.title} disablePadding>
+                                <ListItemButton onClick={() => { if (i.route) router.push(i.route) }}>
+                                    <ListItemIcon>{i.icon}</ListItemIcon>
+                                    <ListItemText primary={i.title} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
             </Drawer>
-
         </Box>
     )
 }

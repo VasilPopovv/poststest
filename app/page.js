@@ -3,9 +3,20 @@ import { Box, Button, Typography, Stack, Paper } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {useRouter} from 'next/navigation'
+import { useDispatch } from "react-redux";
+import { changeTitle } from "@/lib/features/TitleSlice";
+import { useLayoutEffect } from "react";
+import { useTheme } from "@emotion/react";
 
 export default function Home() {
+  const dispatch = useDispatch()
   const router = useRouter()
+  const theme = useTheme()
+  const background = theme.palette.mode == 'light' ? '#e1f2ff' : 'linear-gradient(to right, #262626, #450970)';
+
+  useLayoutEffect(() => {
+    dispatch(changeTitle('DOiT MVP'))
+  }, [dispatch])
 
   return (
     <Paper>
@@ -14,10 +25,11 @@ export default function Home() {
           height: "calc(100dvh - 4rem)",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           flexDirection: "column",
           textAlign: "center",
-          px: 2,
+          py: '6rem',
+          
+          
         }}
       >
         <Box
@@ -29,6 +41,7 @@ export default function Home() {
             justifyContent: "center",
             flexDirection: "column",
             textAlign: "center",
+            background,
           }}
         >
           <Typography variant="h2" component="h1" gutterBottom>
@@ -51,7 +64,7 @@ export default function Home() {
               variant="outlined"
               color="primary"
               startIcon={<AddCircleIcon />}
-              onClick={() => dispatcher(increment())}
+              onClick={() => router.push('/posts/create')}
             >
               Додати пост
             </Button>

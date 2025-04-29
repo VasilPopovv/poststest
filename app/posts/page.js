@@ -13,23 +13,30 @@ import {
     InputAdornment,
     Paper,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { getPosts } from "@/lib/features/PostsSlice";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from '@mui/icons-material/Add';
+import { useEffect, useState, useLayoutEffect } from "react";
+import { getPosts } from "@/lib/features/PostsSlice";
 import { useRouter } from "next/navigation";
-import { removePost, deletePost } from '@/lib/features/PostsSlice'
+import { removePost, deletePost, clearComments } from '@/lib/features/PostsSlice'
+import { changeTitle } from '@/lib/features/TitleSlice'
 
 const Posts = () => {
     const posts = useSelector((state) => state.posts.posts);
-    const dispatcher = useDispatch();
+    const dispatch = useDispatch();
     const router = useRouter();
     const [inputValue, setInputValue] = useState('')
 
+    useLayoutEffect(() => {
+        dispatch(changeTitle('Усі пости'))
+    }, [dispatch])
+
     useEffect(() => {
-        if(!posts.length) dispatcher(getPosts());
-    }, [dispatcher]);
+        if (!posts.length) dispatch(getPosts());
+
+    }, [dispatch]);
 
     const deb = (e) => {
         setTimeout(() => {
@@ -38,18 +45,28 @@ const Posts = () => {
     }
 
     const del = (id) => {
-        dispatcher(removePost(id))
-        dispatcher(deletePost(id))
+        dispatch(removePost(id))
+        dispatch(deletePost(id))
     }
-
-
 
     return (
         <Paper>
             <Box sx={{ maxWidth: 1200, minHeight: 'calc(100dvh - 4rem)', height: '100%', mx: "auto" }}>
+                <IconButton
+                    sx={{
+                        position: 'fixed',
+                        bottom: 20,
+                        right: 20,
+                        zIndex: 999,
+                        backgroundColor: '#2196f3',
+                    }}
+                    onClick={() => router.push('/posts/create')}
+                >
+                    <AddIcon sx={{ color: "white" }}/>
+                </IconButton>
                 <Box
                     component="form"
-                    sx={{ "& > :not(style)": { my: 1 } }}
+                    sx={{ "& > :not(style)": { my: 1 }}}
                     noValidate
                     autoComplete="off"
                 >
