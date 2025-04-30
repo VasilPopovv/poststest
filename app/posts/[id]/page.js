@@ -44,14 +44,13 @@ const PostPage = ({ params }) => {
   }
 
   return (
-    <Paper>
-      <Box sx={{ height: "calc(100dvh - 4rem)", display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {!post.id ? (
           <Box sx={{ height: '100%', display: "flex", justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgress />
           </Box>
         ) : (
-          <Box sx={{ maxWidth: '1200px', py: 2 }}>
+          <Box sx={{ py: 2, px: 1 }}>
             <Card >
               <Paper elevation={8}>
                 <CardHeader
@@ -101,7 +100,6 @@ const PostPage = ({ params }) => {
           </Box>
         )}
       </Box>
-    </Paper>
   );
 };
 

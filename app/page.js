@@ -22,25 +22,19 @@ export default function Home() {
     <Paper>
       <Box
         sx={{
+          py: '4rem',
           height: "calc(100dvh - 4rem)",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          textAlign: "center",
-          py: '6rem',
-          
-          
         }}
       >
         <Box
           sx={{
-            borderRadius: 2,
             p: 4,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
             textAlign: "center",
+            borderRadius: 1,
             background,
           }}
         >

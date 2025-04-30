@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { ReduxProvider } from '../lib/providers'
 import { ThemeProvider } from '@mui/material/styles'
 import { lightTheme, darkTheme } from '@/lib/theme';
+import { Box, Paper } from "@mui/material";
 
 // const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -23,10 +24,14 @@ const Wraper = ({ children }) => {
     return (
         <>
             <ReduxProvider>
-                <ThemeProvider theme={ theme }>
-                    <AppBarComponent toggle={toggleDrawer} toggleTheme={toggleTheme}/>
+                <ThemeProvider theme={theme}>
+                    <AppBarComponent toggle={toggleDrawer} toggleTheme={toggleTheme} />
                     <DrawerComp open={open} toggle={toggleDrawer} />
-                    {children}
+                    <Paper>
+                        <Box sx={{ maxWidth: '1200px', minHeight: "calc(100dvh - 4rem)", mx: 'auto' }}>
+                            {children}
+                        </Box>
+                    </Paper>
                 </ThemeProvider>
             </ReduxProvider>
         </>
