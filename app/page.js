@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Typography, Stack, Paper } from "@mui/material";
+import { Box, Button, Typography, Stack } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {useRouter} from 'next/navigation'
@@ -19,10 +19,11 @@ export default function Home() {
   }, [dispatch])
 
   return (
-    <Paper>
       <Box
+        id='box__one'
         sx={{
-          py: '4rem',
+          px: 1,
+          py: '5rem',
           height: "calc(100dvh - 4rem)",
         }}
       >
@@ -34,7 +35,6 @@ export default function Home() {
             justifyContent: "center",
             flexDirection: "column",
             textAlign: "center",
-            borderRadius: 1,
             background,
           }}
         >
@@ -65,6 +65,5 @@ export default function Home() {
           </Stack>
         </Box>
       </Box>
-    </Paper>
   );
 }

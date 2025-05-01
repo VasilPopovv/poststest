@@ -7,8 +7,6 @@ import { ThemeProvider } from '@mui/material/styles'
 import { lightTheme, darkTheme } from '@/lib/theme';
 import { Box, Paper } from "@mui/material";
 
-// const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
 const Wraper = ({ children }) => {
     const [open, setOpen] = useState(false)
     const [theme, setTheme] = useState(darkTheme)

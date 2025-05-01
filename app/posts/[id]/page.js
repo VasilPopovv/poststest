@@ -46,7 +46,7 @@ const PostPage = ({ params }) => {
   return (
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {!post.id ? (
-          <Box sx={{ height: '100%', display: "flex", justifyContent: 'center', alignItems: 'center' }}>
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
             <CircularProgress />
           </Box>
         ) : (

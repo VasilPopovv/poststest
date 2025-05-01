@@ -5,16 +5,17 @@ import {
     IconButton,
     TextField,
     InputAdornment,
-    Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from '@mui/icons-material/Add';
 import PostsList from "./PostsList";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { getPosts } from "@/lib/features/PostsSlice";
 import { useRouter } from "next/navigation";
 import { removePost, deletePost } from '@/lib/features/PostsSlice'
 import { changeTitle } from '@/lib/features/TitleSlice'
+
+let id = 0;
 
 const Posts = () => {
     const posts = useSelector((state) => state.posts.posts);
@@ -31,7 +32,8 @@ const Posts = () => {
     }, [dispatch]);
 
     const deb = (e) => {
-        setTimeout(() => {
+        clearTimeout(id)
+        id = setTimeout(() => {
             setInputValue(e.target.value)
         }, 500)
     }
