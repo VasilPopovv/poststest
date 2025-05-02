@@ -1,19 +1,17 @@
 import "./globals.css";
-import Wraper from "@/components/Wraper";
+import Wrapper from "@/components/Wrapper";
 
 export const metadata = {
-  title: "test task",
-  description: "test task",
+    title: "Test Task",
+    description: "Test tast posts app",
 };
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>
-        <Wraper>
-          {children}
-        </Wraper>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                <Wrapper>{children}</Wrapper>
+            </body>
+        </html>
+    );
 }
