@@ -10,18 +10,18 @@ import {
     Paper,
     Skeleton,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { removePost, deletePost, getPosts } from "@/lib/features/PostsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { removePost, deletePost, getPosts } from "@/lib/features/PostsSlice";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const PostsList = ({ filter }) => {
     const skeletonSize = new Array(15).fill(0).map((_, index) => index);
     const router = useRouter();
     const dispatch = useDispatch();
-    const posts = useSelector((state) => state.posts.posts);
+    const { posts, isLoading } = useSelector((state) => state.posts);
 
     useEffect(() => {
         if (!posts.length) dispatch(getPosts());
@@ -34,7 +34,7 @@ const PostsList = ({ filter }) => {
 
     return (
         <Grid container spacing={2}>
-            {posts.length
+            {!isLoading
                 ? posts
                       .filter((post) => post.title.includes(filter))
                       .map((post) => {
@@ -43,15 +43,26 @@ const PostsList = ({ filter }) => {
                                   key={post.id}
                                   size={{ md: 4, sm: 6, xs: 12 }}
                               >
-                                  <Card>
-                                      <Paper elevation={8}>
+                                  <Card sx={{ height: "100%"}}>
+                                      <Paper
+                                          elevation={8}
+                                          sx={{
+                                              height: "100%",
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              justifyContent: "space-between",
+                                              pb: 0
+                                          }}
+                                      >
                                           <CardHeader
+                                              sx={{
+                                                  width: "100%",
+                                              }}
                                               avatar={
                                                   <Avatar
                                                       sx={{
                                                           bgcolor: "lightGray",
                                                       }}
-                                                      aria-label="recipe"
                                                   >
                                                       {post.title[0].toUpperCase()}
                                                   </Avatar>
@@ -73,7 +84,7 @@ const PostsList = ({ filter }) => {
                                                   </IconButton>
                                               }
                                           />
-                                          <CardContent>
+                                          <CardContent sx={{ pb: 0}}>
                                               <Typography
                                                   sx={{
                                                       display: "-webkit-box",
@@ -82,21 +93,24 @@ const PostsList = ({ filter }) => {
                                                           "vertical",
                                                       textOverflow: "ellipsis",
                                                       overflow: "hidden",
+                                                      mb: 1,
+                                                      
                                                   }}
                                               >
                                                   {post.body}
                                               </Typography>
+                                              <IconButton
+                                                  sx={{ mt: 1, mb: 0 }}
+                                                  aria-label="settings"
+                                                  onClick={() =>
+                                                      router.push(
+                                                          `/posts/${post.id}`
+                                                      )
+                                                  }
+                                              >
+                                                  <ArrowForwardIcon />
+                                              </IconButton>
                                           </CardContent>
-                                          <IconButton
-                                              aria-label="settings"
-                                              onClick={() =>
-                                                  router.push(
-                                                      `/posts/${post.id}`
-                                                  )
-                                              }
-                                          >
-                                              <ArrowForwardIcon />
-                                          </IconButton>
                                       </Paper>
                                   </Card>
                               </Grid>
