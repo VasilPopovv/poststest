@@ -34,11 +34,9 @@ const steps = ["Заголовок", "Тіло", "Попередній пере�
 const page = () => {
     const dispatch = useDispatch();
     const wasCreated = useSelector((state) => state.posts.wasCreated);
-    const postsLength = useSelector((state) => state.posts.postsLength);
     const [activeStep, setActiveStep] = useState(0);
     const [post, setPost] = useState({ title: "", body: "" });
     const [openDialog, setOpenDialog] = useState(false);
-    const [id, setId] = useState(postsLength + 1);
     const [error, setError] = useState(false);
 
     useLayoutEffect(() => {
@@ -70,12 +68,9 @@ const page = () => {
     const save = () => {
         const newPost = {
             userId: 1,
-            id,
             ...post,
         };
-        setId((prev) => prev + 1);
         dispatch(createPost(newPost));
-        dispatch(addPost(newPost));
         setPost({ title: "", body: "" });
         setActiveStep(0);
         setTimeout(() => {
@@ -151,9 +146,7 @@ const page = () => {
                         })}
                     </Stepper>
                     <Box
-                        sx={{ "& > :not(style)": { my: 3 } }}
-                        noValidate
-                        autoComplete="off"
+                        sx={{ my: 3 }}
                     >
                         {activeStep < 2 && (
                             <FormControl fullWidth>

@@ -8,13 +8,12 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-
-const iconList = [
-    { title: "Головна", icon: <HomeIcon />, route: '/' },
-    { title: "Усі пости", icon: <FormatListBulletedIcon />, route: '/posts' },
-    { title: 'Створити пост', icon: <AddCircleIcon />, route: '/posts/create' }
+const navigationList = [
+    { title: "Головна", icon: <HomeIcon />, route: "/" },
+    { title: "Усі пости", icon: <FormatListBulletedIcon />, route: "/posts" },
+    { title: "Створити пост", icon: <AddCircleIcon />, route: "/posts/create" },
 ];
 
 const DrawerComp = ({ open, toggle }) => {
@@ -23,13 +22,21 @@ const DrawerComp = ({ open, toggle }) => {
     return (
         <Box>
             <Drawer open={open} onClose={() => toggle()}>
-                <Box sx={{ width: 250 }} role="presentation" onClick={() => toggle()}>
+                <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={() => toggle()}
+                >
                     <List>
-                        {iconList.map((i) => (
-                            <ListItem key={i.title} disablePadding>
-                                <ListItemButton onClick={() => { if (i.route) router.push(i.route) }}>
-                                    <ListItemIcon>{i.icon}</ListItemIcon>
-                                    <ListItemText primary={i.title} />
+                        {navigationList.map((link) => (
+                            <ListItem key={link.title} disablePadding>
+                                <ListItemButton
+                                    onClick={() => {
+                                        if (link.route) router.push(link.route);
+                                    }}
+                                >
+                                    <ListItemIcon>{link.icon}</ListItemIcon>
+                                    <ListItemText primary={link.title} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -37,7 +44,7 @@ const DrawerComp = ({ open, toggle }) => {
                 </Box>
             </Drawer>
         </Box>
-    )
-}
+    );
+};
 
-export default DrawerComp
+export default DrawerComp;

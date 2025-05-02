@@ -13,19 +13,36 @@ import {
 import { useRouter } from "next/navigation";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { removePost, deletePost, getPosts } from "@/lib/features/PostsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-const PostsList = ({ posts, delPost, filter }) => {
+const PostsList = ({ filter }) => {
+    const skeletonSize = new Array(15).fill(0).map((_, index) => index);
     const router = useRouter();
-    const skelStack = new Array(15).fill(0).map((_, index) => index);
+    const dispatch = useDispatch();
+    const posts = useSelector((state) => state.posts.posts);
+
+    useEffect(() => {
+        if (!posts.length) dispatch(getPosts());
+    }, [dispatch, posts]);
+
+    const deletePostById = (id) => {
+        dispatch(removePost(id));
+        dispatch(deletePost(id));
+    };
 
     return (
         <Grid container spacing={2}>
             {posts.length
                 ? posts
-                      .filter((i) => i.title.includes(filter))
-                      .map((i) => {
+                      .filter((post) => post.title.includes(filter))
+                      .map((post) => {
                           return (
-                              <Grid key={i.id} size={{ md: 4, sm: 6, xs: 12 }}>
+                              <Grid
+                                  key={post.id}
+                                  size={{ md: 4, sm: 6, xs: 12 }}
+                              >
                                   <Card>
                                       <Paper elevation={8}>
                                           <CardHeader
@@ -36,16 +53,18 @@ const PostsList = ({ posts, delPost, filter }) => {
                                                       }}
                                                       aria-label="recipe"
                                                   >
-                                                      {i.title[0].toUpperCase()}
+                                                      {post.title[0].toUpperCase()}
                                                   </Avatar>
                                               }
-                                              title={i.title}
-                                              subheader={"user " + i.userId}
+                                              title={post.title}
+                                              subheader={"user " + post.userId}
                                               action={
                                                   <IconButton
                                                       aria-label="delete"
                                                       onClick={() =>
-                                                          delPost(i.id)
+                                                          deletePostById(
+                                                              post.id
+                                                          )
                                                       }
                                                   >
                                                       <DeleteIcon
@@ -65,13 +84,15 @@ const PostsList = ({ posts, delPost, filter }) => {
                                                       overflow: "hidden",
                                                   }}
                                               >
-                                                  {i.body}
+                                                  {post.body}
                                               </Typography>
                                           </CardContent>
                                           <IconButton
                                               aria-label="settings"
                                               onClick={() =>
-                                                  router.push(`/posts/${i.id}`)
+                                                  router.push(
+                                                      `/posts/${post.id}`
+                                                  )
                                               }
                                           >
                                               <ArrowForwardIcon />
@@ -81,9 +102,9 @@ const PostsList = ({ posts, delPost, filter }) => {
                               </Grid>
                           );
                       })
-                : skelStack.map((i) => {
+                : skeletonSize.map((i) => {
                       return (
-                          <Grid item key={i} size={{ md: 4, sm: 6, xs: 12 }}>
+                          <Grid key={i} size={{ md: 4, sm: 6, xs: 12 }}>
                               <Paper elevation={8}>
                                   <Box sx={{ p: 1 }}>
                                       <Box

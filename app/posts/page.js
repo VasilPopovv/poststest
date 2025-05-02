@@ -1,19 +1,17 @@
 "use client";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Box, IconButton, TextField, InputAdornment } from "@mui/material";
+import { useState, useLayoutEffect } from "react";
+
+import { useRouter } from "next/navigation";
+import { changeTitle } from "@/lib/features/TitleSlice";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import PostsList from "./PostsList";
-import { useEffect, useState, useLayoutEffect, useCallback } from "react";
-import { getPosts } from "@/lib/features/PostsSlice";
-import { useRouter } from "next/navigation";
-import { removePost, deletePost } from "@/lib/features/PostsSlice";
-import { changeTitle } from "@/lib/features/TitleSlice";
 
-let id = 0;
+let timeoutId = 0;
 
 const Posts = () => {
-    const posts = useSelector((state) => state.posts.posts);
     const dispatch = useDispatch();
     const router = useRouter();
     const [inputValue, setInputValue] = useState("");
@@ -22,20 +20,11 @@ const Posts = () => {
         dispatch(changeTitle("Усі пости"));
     }, [dispatch]);
 
-    useEffect(() => {
-        if (!posts.length) dispatch(getPosts());
-    }, [dispatch]);
-
-    const deb = (e) => {
-        clearTimeout(id);
-        id = setTimeout(() => {
+    const inputInterval = (e) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
             setInputValue(e.target.value);
         }, 500);
-    };
-
-    const del = (id) => {
-        dispatch(removePost(id));
-        dispatch(deletePost(id));
     };
 
     return (
@@ -52,17 +41,13 @@ const Posts = () => {
             >
                 <AddIcon sx={{ color: "white" }} />
             </IconButton>
-            <Box
-                component="form"
-                sx={{ "& > :not(style)": { my: 1 } }}
-                noValidate
-                autoComplete="off"
-            >
+            <Box sx={{ mb: 1 }}>
                 <TextField
                     fullWidth
+                    autoComplete="off"
                     id="outlined-basic"
                     placeholder="Пошук за заголовком"
-                    onInput={deb}
+                    onInput={inputInterval}
                     slotProps={{
                         input: {
                             startAdornment: (
@@ -74,7 +59,7 @@ const Posts = () => {
                     }}
                 />
             </Box>
-            <PostsList posts={posts} delPost={del} filter={inputValue} />
+            <PostsList filter={inputValue} />
         </Box>
     );
 };
