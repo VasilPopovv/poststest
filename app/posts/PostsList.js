@@ -43,17 +43,8 @@ const PostsList = ({ filter }) => {
                                   key={post.id}
                                   size={{ md: 4, sm: 6, xs: 12 }}
                               >
-                                  <Card sx={{ height: "100%"}}>
-                                      <Paper
-                                          elevation={8}
-                                          sx={{
-                                              height: "100%",
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              justifyContent: "space-between",
-                                              pb: 0
-                                          }}
-                                      >
+                                  <Card>
+                                      <Paper elevation={8}>
                                           <CardHeader
                                               sx={{
                                                   width: "100%",
@@ -84,7 +75,7 @@ const PostsList = ({ filter }) => {
                                                   </IconButton>
                                               }
                                           />
-                                          <CardContent sx={{ pb: 0}}>
+                                          <CardContent sx={{ pb: 0 }}>
                                               <Typography
                                                   sx={{
                                                       display: "-webkit-box",
@@ -94,7 +85,6 @@ const PostsList = ({ filter }) => {
                                                       textOverflow: "ellipsis",
                                                       overflow: "hidden",
                                                       mb: 1,
-                                                      
                                                   }}
                                               >
                                                   {post.body}
