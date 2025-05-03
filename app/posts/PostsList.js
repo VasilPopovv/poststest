@@ -24,8 +24,8 @@ const PostsList = ({ filter }) => {
     const { posts, isLoading } = useSelector((state) => state.posts);
 
     useEffect(() => {
-        if (!posts.length) dispatch(getPosts());
-    }, [dispatch, posts]);
+        if (posts.length < 20) dispatch(getPosts());
+    }, [dispatch]);
 
     const deletePostById = (id) => {
         dispatch(removePost(id));
